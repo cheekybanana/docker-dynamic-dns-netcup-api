@@ -29,26 +29,53 @@
 
 ## Getting started
 ### Download
-Download the [latest version](https://github.com/stecklars/dynamic-dns-netcup-api/releases/latest) from the releases or clone the repository:
+Clone the repository:
 
-`$ git clone https://github.com/stecklars/dynamic-dns-netcup-api.git`
+`$ git clone https://github.com/cheekybanana/docker-dynamic-dns-netcup-api.git`
 
-I'm always trying to keep the master branch stable.
 
-Then, allow `update.php` to be executed by your user:
 
-`chmod u+x update.php`
 
 ### Configuration
-Configuration is very simple: 
-* Copy `config.dist.php` to `config.php`
-  * `cp config.dist.php config.php`
-* Fill out `config.php` with the required values. The options are explained in there.
+Copy the `.env.example` to `.env` and make your cahnges:
+
+`cp .env.example .env`
+
+The `run.sh` creates a new `config.php` while building the image
 
 ### How to use
-`./update.php`
+Build teh image:
 
-You should probably run this script every few minutes, so that your IP is updated as quickly as possible. Add it to your cronjobs and run it regularly, for example every five minutes.
+`docker build -t netcup-ddns .`
+
+Deploy the container:
+`docker compose up -d`
+
+You can let show the logs with 
+`docker logs netcup-ddns`
+
+You should se something like this:
+```
+Running update.php...
+[1970/01/01 00:00:34 +0000][NOTICE] =============================================
+[1970/01/01 00:00:34 +0000][NOTICE] Running dynamic DNS client for netcup 5.0
+[1970/01/01 00:00:34 +0000][NOTICE] This script is not affiliated with netcup.
+[1970/01/01 00:00:34 +0000][NOTICE] =============================================
+
+[1970/01/01 00:00:34 +0000][NOTICE] Getting IPv4 address from https://get-ipv4.steck.cc.
+[1970/01/01 00:00:34 +0000][NOTICE] Logging into netcup CCP DNS API.
+[1970/01/01 00:00:35 +0000][NOTICE] Logged in successfully!
+[1970/01/01 00:00:35 +0000][NOTICE] Beginning work on domain "domain.de"
+[1970/01/01 00:00:35 +0000][NOTICE] Getting Domain info for "domain.de".
+[1970/01/01 00:00:35 +0000][NOTICE] Successfully received Domain info.
+[1970/01/01 00:00:35 +0000][NOTICE] Getting DNS records data for "domain.de".
+[1970/01/01 00:00:35 +0000][NOTICE] Successfully received DNS record data.
+[1970/01/01 00:00:35 +0000][NOTICE] Updating DNS records for subdomain "test01" of domain "domain.de".
+[1970/01/01 00:00:35 +0000][NOTICE] IPv4 address hasn't changed. Current IPv4 address: 1.2.3.4
+[1970/01/01 00:00:35 +0000][NOTICE] Logging out from netcup CCP DNS API.
+[1970/01/01 00:00:36 +0000][NOTICE] Logged out successfully!
+Next update in 300s...
+```
 
 ### CLI options
 Just add these Options after the command like `./update.php --quiet`
