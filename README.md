@@ -37,7 +37,8 @@ Clone the repository:
 
 
 ### Configuration
-Copy the `.env.example` to `.env` and make your cahnges:
+
+If you are not using Portainer for deployment make changes for the `.env` in the `docker-compose.yml` and copy the `.env.example` to `.env` and make your changes:
 
 `cp .env.example .env`
 

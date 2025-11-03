@@ -4,7 +4,9 @@ services:
     container_name: netcup-ddns
     restart: unless-stopped
     env_file:
-      - .env
+      # - .env
+#     For using Portainer 
+      - stack.env
 #      UPDATE_INTERVAL: 300    # optional: Logs auf stdout
     logging:
       driver: "json-file"
